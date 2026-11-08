@@ -51,6 +51,9 @@ header.top{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
 .path .dot{position:absolute;top:0;left:0;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--muted)}
 .path .stop.done .dot{background:var(--give);border-color:var(--give)}
 .path .stop.done::before{border-color:var(--give)}
+.path .stop.next .dot{border-style:dashed;border-color:var(--get)}
+.path .tag{display:inline-block;margin-top:2px;font:600 11px var(--body);letter-spacing:.04em;text-transform:uppercase}
+.path .tag.ok{color:var(--give)} .path .tag.sch{color:var(--get)} .path .tag.goal{color:var(--muted)}
 .path .when{font:500 12px var(--mono);color:var(--muted)}
 .path .what{font-size:13px;font-weight:600;padding-right:8px}
 @media (max-width:480px){.path{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:12px}}
@@ -104,12 +107,12 @@ textarea{min-height:70px;resize:vertical}
   <header class="top">
     <div class="eyebrow">What I'm keeping from Influence</div>
     <h1>My Pathway to CRO</h1>
-    <p class="muted">Expertise opens the door. Relationships move the work. And I have to <span class="get">say the ask</span>.</p>
+    <p class="muted">Expertise opens the door. Relationships move the work. <span class="get">I have to say what I want.</span></p>
     <div class="path" aria-label="My path">
-      <div class="stop done"><span class="dot"></span><div class="when">Nov 2026</div><div class="what">Seat at the planning table</div></div>
-      <div class="stop done"><span class="dot"></span><div class="when">Nov 2026</div><div class="what">Speaking at D2, women in AI</div></div>
-      <div class="stop"><span class="dot"></span><div class="when">May 2027</div><div class="what">WEMBA done; reread this</div></div>
-      <div class="stop"><span class="dot"></span><div class="when">Nov 2032</div><div class="what">CRO, and a board seat</div></div>
+      <div class="stop done"><span class="dot"></span><div class="when">Nov 2026</div><div class="what">Seat at the planning table</div><span class="tag ok">Done</span></div>
+      <div class="stop next"><span class="dot"></span><div class="when">Nov 10, 2026</div><div class="what">First D2 meeting, women in AI</div><span class="tag sch">Scheduled</span></div>
+      <div class="stop"><span class="dot"></span><div class="when">May 2027</div><div class="what">WEMBA done; reread this</div><span class="tag goal">Goal</span></div>
+      <div class="stop"><span class="dot"></span><div class="when">Nov 2032</div><div class="what">CRO, and a board seat</div><span class="tag goal">Goal</span></div>
     </div>
   </header>
 
@@ -161,8 +164,23 @@ textarea{min-height:70px;resize:vertical}
       <div class="field"><label for="j-next">Next month's ask</label><input type="text" id="j-next" maxlength="300"></div>
       <div class="row"><button class="btn" id="j-save" type="submit">Save this month</button><span id="j-status" class="status" aria-live="polite"></span></div>
     </form>
+    <div class="panel stack-s">
+      <h3>Back up my journal</h3>
+      <p class="small muted">Entries live in this browser only. Download a backup after each monthly entry, and restore it on a new device.</p>
+      <div class="row"><button class="btn ghost" id="b-down" type="button">Download backup</button>
+      <label class="btn ghost" for="b-up" style="margin:0;font-weight:600">Restore from backup</label>
+      <input type="file" id="b-up" accept="application/json,.json" hidden></div>
+      <p id="b-status" class="status" aria-live="polite"></p>
+    </div>
     <div id="past" class="stack"></div>
   </section>
+
+  <footer class="panel stack-s" style="margin-top:32px">
+    <div class="eyebrow">About this project</div>
+    <p class="small">My final project for Influence (WEMBA East, Fall 2026). What I'm putting in the truck: say the ask, name both sides of the trade, and don't walk in cold. How I keep it alive: draw a card before hard moments, and one journal page a month.</p>
+    <h3>AI disclosure</h3>
+    <p class="small">I used ChatGPT to review the assignment and class transcripts, structure my field guide, and draft and edit its language. I used Claude to read the transcripts and slides, pull course quotes for the cards, draft the "For me" lines from my field guide, and build and publish this website. The examples, Leverage Inventory scores, Triple Helix reflection, journal entries, and commitments are mine. I chose what went in and reviewed every card.</p>
+  </footer>
 </div>
 
 <script>
@@ -170,7 +188,7 @@ textarea{min-height:70px;resize:vertical}
 (function(){
   var KEY = "pathway-to-cro-journal";
   var SEED = {"2026-11": {
-    "win": "1. After the layoffs, the head of data science for marketing put me in the planning seat I'd had my eye on. My team works with finance, sales and marketing on planning; I had my first planning-cycle meeting looking at top-down while my team builds bottom-up. A step closer to the P&L and the CRO lens.\n2. I cold-reached out to D2, a women-in-AI community. The co-founder reached back. I attend my first meeting next Tuesday, and they've asked me to speak about how I use AI and how to help other women in tech get comfortable with it.",
+    "win": "1. After the layoffs, the head of data science for marketing put me in the planning seat I'd had my eye on. My team works with finance, sales and marketing on planning; I had my first planning-cycle meeting looking at top-down while my team builds bottom-up. A step closer to the P&L and the CRO lens.\n2. I cold-reached out to D2, a women-in-AI community. The co-founder reached back. I attend my first meeting on Nov 10, and they've asked me to speak about how I use AI and how to help other women in tech get comfortable with it.",
     "ask": "A seat in the planning scope, closer to the P&L. And a place in the D2 community.",
     "offer": "My MBA strategic lens, curiosity and data-science background on planning. To D2: my AI experience, as a speaker.",
     "soft": "", "card": "", "next": "", "savedOn": "2026-11-08"}};
@@ -182,6 +200,10 @@ textarea{min-height:70px;resize:vertical}
   var db = {
     collection: function(){ return { onSnapshot: function(next){ listeners.push(next); setTimeout(function(){ next(snap()); },0); return function(){}; } }; },
     doc: function(path){ var id = path.split("/")[1]; return { set: function(body){ data[id] = body; if(!save(data)) return Promise.reject({code:"unavailable"}); emit(); return Promise.resolve(); } }; }
+  };
+  window.pathwayBackup = {
+    get: function(){ return data; },
+    set: function(o){ data = o; if(!save(data)) return false; emit(); return true; }
   };
   window.claude = { use: function(n){ return Promise.resolve(n==="db" ? db : (n==="user" ? {can:function(){ return Promise.resolve(true); }} : null)); } };
 })();
@@ -198,9 +220,9 @@ textarea{min-height:70px;resize:vertical}
     // Me
     {d:"Me", mine:true, s:["ask","soft","stuck"], line:"I can be honest about what I want and clear about why it could work for both of us.", src:"My reminder", me:"Read this one out loud before the meeting."},
     {d:"Me", mine:true, s:["soft","ask"], line:"I had the best seat, took $26M of $50M, and stopped.", src:"Triple Helix", me:"I told myself I was protecting the relationship. I may also have been avoiding the discomfort of asking for more."},
-    {d:"Me", mine:true, s:["soft","ask"], line:"I ask easily for my own growth. I soften when the ask costs someone I like.", src:"My pattern", me:"Notice which one this is. Then decide before I see their face."},
+    {d:"Me", mine:true, lead:true, s:["soft","ask"], line:"I ask easily for my own growth. I soften when the ask costs someone I like.", src:"My pattern", me:"Notice which one this is. Then decide before I see their face."},
     {d:"Me", mine:true, s:["stuck","ask"], line:"I said what I wanted, and they gave me the planning seat.", src:"November 2026", me:"Top-down and bottom-up, next to the P&L. Ambition said out loud is a trade, not a favor."},
-    {d:"Me", mine:true, s:["stuck","people"], line:"A cold email turned into a speaking invite.", src:"November 2026, D2 women in AI", me:"Being visible about what I know is ethos. My style avoids self-promotion; this is the stretch."},
+    {d:"Me", mine:true, s:["stuck","people"], line:"A cold email turned into a speaking invite.", src:"November 2026, D2 women in AI (first meeting Nov 10)", me:"Being visible about what I know is ethos. My style avoids self-promotion; this is the stretch."},
     {d:"Me", mine:true, s:["room","pushback"], line:"Exchange −1.05. Networks +1.00. Allocentrism +0.95.", src:"My Leverage Inventory", me:"I'm great at the give. The work is naming the get."},
     // The ask
     {d:"The ask", s:["ask","soft"], line:"He was a trader, willing to take others into his debt and settle up over time.", src:"LBJ, The Boss of the Little Congress (Caro)", me:"I don't have to collect every time. I do have to keep the ledger."},
@@ -265,7 +287,9 @@ textarea{min-height:70px;resize:vertical}
     const pool = DECK.map((c,i)=>i).filter(i => sit==="all" || DECK[i].s.includes(sit));
     const mine = pool.filter(i => DECK[i].mine), rest = shuffle(pool.filter(i => !DECK[i].mine));
     // lead with one of my own cards, then the course
-    order = mine.length ? [shuffle(mine.slice())[0], ...shuffle(rest.concat(mine.slice(1)))] : rest;
+    const lead = pool.find(i => DECK[i].lead);
+    const first = lead!==undefined ? lead : (mine.length ? shuffle(mine.slice())[0] : undefined);
+    order = first!==undefined ? [first, ...shuffle(pool.filter(i => i!==first))] : rest;
     order = [...new Set(order)];
     pos = 0; render();
   }
@@ -346,6 +370,27 @@ textarea{min-height:70px;resize:vertical}
     try{ await state.db.doc("journal/"+monthId).set(body); state.touched = false; setStatus("Saved. See you next month."); }
     catch(err){ setStatus(err && err.code==="invalid_argument" ? "This view can't save entries." : "Couldn't save. Check your connection and try again.", true); }
     finally{ $("j-save").disabled = !state.canWrite; }
+  });
+
+  // ---------- backup ----------
+  $("b-down").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(window.pathwayBackup.get(), null, 2)], {type:"application/json"});
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+    a.download = "pathway-journal-" + new Date().toISOString().slice(0,10) + ".json";
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    $("b-status").textContent = "Backup downloaded.";
+  });
+  $("b-up").addEventListener("change", async e => {
+    const f = e.target.files[0]; if(!f) return;
+    $("b-status").classList.remove("err");
+    try{
+      const o = JSON.parse(await f.text());
+      if(!o || typeof o!=="object" || Array.isArray(o) || !Object.keys(o).every(k => /^\d{4}-\d{2}$/.test(k))) throw 0;
+      const merged = Object.assign({}, window.pathwayBackup.get(), o);
+      state.touched = false;
+      $("b-status").textContent = window.pathwayBackup.set(merged) ? "Restored " + Object.keys(o).length + " month(s)." : "Couldn't save in this browser.";
+    }catch(_){ $("b-status").textContent = "That file isn't a journal backup."; $("b-status").classList.add("err"); }
+    e.target.value = "";
   });
 
   (async function connect(){
