@@ -146,7 +146,7 @@ textarea{min-height:70px;resize:vertical}
   <section id="view-journal" class="stack" role="tabpanel" aria-labelledby="tab-journal" hidden>
     <div class="stack-s">
       <h2>One page a month</h2>
-      <p class="small muted">First Sunday of each month, 20 minutes. Monthly is the pace I'll actually keep during WEMBA.</p>
+      <p class="small muted">First Sunday of each month, 15 minutes. Monthly is the pace I'll actually keep during WEMBA.</p>
       <div class="row"><a class="btn ghost" id="cal" target="_blank" rel="noopener">Add the monthly reminder</a></div>
     </div>
         <p class="small muted">Entries save in this browser on this device.</p>
@@ -328,9 +328,9 @@ textarea{min-height:70px;resize:vertical}
   const monthName = id => { const [y,m] = id.split("-").map(Number); return new Date(y,m-1,1).toLocaleDateString(undefined,{month:"long",year:"numeric"}); };
   $("jtitle").textContent = monthName(monthId);
   $("cal").href = "https://calendar.google.com/calendar/render?action=TEMPLATE"
-    + "&text=" + encodeURIComponent("Monthly page: My Pathway to CRO (20 min)")
+    + "&text=" + encodeURIComponent("Monthly page: My Pathway to CRO (15 min)")
     + "&details=" + encodeURIComponent("Open My Pathway to CRO > Monthly journal. My win, the ask and what I offered, where I softened, next month's ask.")
-    + "&dates=20261206T190000/20261206T192000&ctz=America/New_York"
+    + "&dates=20261206T190000/20261206T191500&ctz=America/New_York"
     + "&recur=" + encodeURIComponent("RRULE:FREQ=MONTHLY;BYDAY=1SU;COUNT=12");
 
   const F = ["win","ask","offer","soft","card","next"];
