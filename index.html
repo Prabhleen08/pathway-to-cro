@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>My Pathway to CRO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: phone-first reading deck. Path strip on top, one big card in the middle, journal below. Two colors of a trade: give (teal) and get (amber). */
+:root{
+  --bg:#F4F6F7; --surface:#FFFFFF; --fg:#16212C; --muted:#5B6773; --line:#DCE2E7;
+  --give:#0E6B63; --give-soft:#E1F1EE; --get:#B35C0A; --get-soft:#FBEBDC; --warn:#B3261E; --warn-soft:#FBE4E2;
+  --card:#16212C; --card-fg:#F4F6F7; --card-muted:#A9B6C2;
+  --display:"Bricolage Grotesque","Avenir Next",system-ui,sans-serif;
+  --body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1419; --surface:#18202A; --fg:#E8EDF2; --muted:#9AA7B4; --line:#2A3542;
+  --give:#4FC2B3; --give-soft:#16312E; --get:#F0A25A; --get-soft:#3A2614; --warn:#F2827A; --warn-soft:#3B1C1A;
+  --card:#E8EDF2; --card-fg:#121920; --card-muted:#4D5966; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1419; --surface:#18202A; --fg:#E8EDF2; --muted:#9AA7B4; --line:#2A3542;
+  --give:#4FC2B3; --give-soft:#16312E; --get:#F0A25A; --get-soft:#3A2614; --warn:#F2827A; --warn-soft:#3B1C1A;
+  --card:#E8EDF2; --card-fg:#121920; --card-muted:#4D5966; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:720px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 64px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:30px;font-weight:700} h2{font-size:21px;font-weight:700} h3{font-size:16px;font-weight:500}
+p{margin:0}
+.muted{color:var(--muted)} .small{font-size:13px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.stack{display:flex;flex-direction:column;gap:16px} .stack-s{display:flex;flex-direction:column;gap:8px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px}
+header.top{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.give{color:var(--give)} .get{color:var(--get)}
+/* path */
+.path{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:6px 0 4px}
+.path .stop{position:relative;padding-top:18px;min-width:0}
+.path .stop::before{content:"";position:absolute;top:5px;left:0;right:0;border-top:2px solid var(--line)}
+.path .stop:first-child::before{left:6px}
+.path .stop:last-child::before{right:auto;width:6px}
+.path .dot{position:absolute;top:0;left:0;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--muted)}
+.path .stop.done .dot{background:var(--give);border-color:var(--give)}
+.path .stop.done::before{border-color:var(--give)}
+.path .when{font:500 12px var(--mono);color:var(--muted)}
+.path .what{font-size:13px;font-weight:600;padding-right:8px}
+@media (max-width:480px){.path{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:12px}}
+/* tabs */
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:4px;overflow-x:auto;padding:8px 0;margin:10px 0 16px;border-bottom:1px solid var(--line)}
+nav.tabs button{flex:0 0 auto;border:0;background:none;color:var(--muted);font:600 14px var(--body);padding:8px 14px;border-radius:999px;cursor:pointer}
+nav.tabs button[aria-selected="true"]{background:var(--fg);color:var(--bg)}
+button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid var(--give);outline-offset:2px}
+/* situation chips */
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--fg);font:500 13px var(--body);padding:6px 12px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--get-soft);border-color:var(--get);color:var(--fg)}
+/* the card */
+.card{background:var(--card);color:var(--card-fg);border-radius:14px;padding:24px 22px;min-height:300px;display:flex;flex-direction:column;gap:14px;position:relative}
+.card .deck{font:600 12px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--card-muted)}
+.card .line{font-family:var(--display);font-size:26px;font-weight:500;line-height:1.25;text-wrap:balance}
+.card .src{font-size:13px;color:var(--card-muted)}
+.card .forme{margin-top:auto;border-top:1px solid color-mix(in srgb, var(--card-muted) 40%, transparent);padding-top:12px;font-size:15px}
+.card .forme b{color:var(--card-muted);font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:2px}
+.card .pos{position:absolute;top:22px;right:22px;font:500 12px var(--mono);color:var(--card-muted)}
+@media (max-width:480px){.card .line{font-size:22px}}
+.btn{font:600 15px var(--body);border-radius:8px;padding:10px 16px;border:1px solid var(--fg);background:var(--fg);color:var(--bg);cursor:pointer}
+.btn.ghost{background:none;color:var(--fg)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+a.btn{display:inline-block;text-decoration:none}
+/* all cards list */
+.deckhead{margin-top:8px}
+.mini{display:grid;grid-template-columns:3px 1fr;gap:12px}
+.mini .bar{background:var(--get);border-radius:2px}
+.mini.mine .bar{background:var(--give)}
+.mini > div{min-width:0}
+.mini .q{font-family:var(--display);font-size:17px;font-weight:500;line-height:1.3}
+/* journal */
+label{font-weight:600;font-size:14px;display:block;margin-bottom:4px}
+.hint{font-weight:400;color:var(--muted);font-size:13px;display:block}
+input[type=text],textarea{width:100%;font:15px var(--body);color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px}
+textarea{min-height:70px;resize:vertical}
+.trade{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.trade > div{min-width:0}
+@media (max-width:480px){.trade{grid-template-columns:1fr}}
+.tag-get{background:var(--get-soft);border-radius:8px;padding:10px} .tag-give{background:var(--give-soft);border-radius:8px;padding:10px}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--give-soft);color:var(--give)}
+.pill.idle{background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.status{font-size:13px;color:var(--muted);min-height:18px} .status.err{color:var(--warn)}
+.ro-note{background:var(--get-soft);border-radius:8px;padding:10px 12px;font-size:14px}
+.win{display:flex;flex-direction:column;gap:4px;padding:10px 12px;border-radius:8px;background:var(--bg)}
+@media (prefers-reduced-motion:no-preference){.card.flip{animation:flip .28s ease-out}@keyframes flip{from{transform:translateY(6px);opacity:.6}to{transform:none;opacity:1}}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">What I'm keeping from Influence</div>
+    <h1>My Pathway to CRO</h1>
+    <p class="muted">Expertise opens the door. Relationships move the work. And I have to <span class="get">say the ask</span>.</p>
+    <div class="path" aria-label="My path">
+      <div class="stop done"><span class="dot"></span><div class="when">Nov 2026</div><div class="what">Seat at the planning table</div></div>
+      <div class="stop done"><span class="dot"></span><div class="when">Nov 2026</div><div class="what">Speaking at D2, women in AI</div></div>
+      <div class="stop"><span class="dot"></span><div class="when">May 2027</div><div class="what">WEMBA done; reread this</div></div>
+      <div class="stop"><span class="dot"></span><div class="when">Nov 2032</div><div class="what">CRO, and a board seat</div></div>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" id="tab-draw" data-view="draw" aria-selected="true">Draw a card</button>
+    <button role="tab" id="tab-all" data-view="all" aria-selected="false">All cards</button>
+    <button role="tab" id="tab-journal" data-view="journal" aria-selected="false">Monthly journal</button>
+  </nav>
+
+  <!-- DRAW -->
+  <section id="view-draw" class="stack" role="tabpanel" aria-labelledby="tab-draw">
+    <div class="stack-s">
+      <h2>What am I facing right now?</h2>
+      <div class="chips" id="chips"></div>
+    </div>
+    <article class="card" id="card" aria-live="polite"></article>
+    <div class="row">
+      <button class="btn" id="next" type="button">Draw another</button>
+      <button class="btn ghost" id="prev" type="button">Back</button>
+      <span class="small muted" id="count"></span>
+    </div>
+  </section>
+
+  <!-- ALL -->
+  <section id="view-all" class="stack" role="tabpanel" aria-labelledby="tab-all" hidden>
+    <p class="muted small">Every card in the deck, grouped by what it's for. Teal cards are my own; amber cards come from the course.</p>
+    <div id="all" class="stack"></div>
+  </section>
+
+  <!-- JOURNAL -->
+  <section id="view-journal" class="stack" role="tabpanel" aria-labelledby="tab-journal" hidden>
+    <div class="stack-s">
+      <h2>One page a month</h2>
+      <p class="small muted">First Sunday of each month, 20 minutes. Monthly is the pace I'll actually keep during WEMBA.</p>
+      <div class="row"><a class="btn ghost" id="cal" target="_blank" rel="noopener">Add the monthly reminder</a></div>
+    </div>
+        <p class="small muted">Entries save in this browser on this device.</p>
+    <p id="ro" hidden></p>
+    <p id="sync" class="status" aria-live="polite"></p>
+    <form id="jform" class="panel stack" novalidate>
+      <div class="row" style="justify-content:space-between"><h3 id="jtitle">This month</h3><span class="pill idle" id="jstate">Not written yet</span></div>
+      <div class="field"><label for="j-win">My win this month</label><textarea id="j-win" maxlength="1200"></textarea></div>
+      <div class="trade">
+        <div class="tag-get"><label for="j-ask" class="get">What I asked for</label><textarea id="j-ask" maxlength="600"></textarea></div>
+        <div class="tag-give"><label for="j-offer" class="give">What I offered</label><textarea id="j-offer" maxlength="600"></textarea></div>
+      </div>
+      <div class="field"><label for="j-soft">Where I softened <span class="hint">Where I took less than I could have, or didn't ask.</span></label><textarea id="j-soft" maxlength="600"></textarea></div>
+      <div class="field"><label for="j-card">The card I needed most</label><input type="text" id="j-card" maxlength="200"></div>
+      <div class="field"><label for="j-next">Next month's ask</label><input type="text" id="j-next" maxlength="300"></div>
+      <div class="row"><button class="btn" id="j-save" type="submit">Save this month</button><span id="j-status" class="status" aria-live="polite"></span></div>
+    </form>
+    <div id="past" class="stack"></div>
+  </section>
+</div>
+
+<script>
+/* Standalone build: the journal saves to this browser's localStorage. */
+(function(){
+  var KEY = "pathway-to-cro-journal";
+  var SEED = {"2026-11": {
+    "win": "1. After the layoffs, the head of data science for marketing put me in the planning seat I'd had my eye on. My team works with finance, sales and marketing on planning; I had my first planning-cycle meeting looking at top-down while my team builds bottom-up. A step closer to the P&L and the CRO lens.\n2. I cold-reached out to D2, a women-in-AI community. The co-founder reached back. I attend my first meeting next Tuesday, and they've asked me to speak about how I use AI and how to help other women in tech get comfortable with it.",
+    "ask": "A seat in the planning scope, closer to the P&L. And a place in the D2 community.",
+    "offer": "My MBA strategic lens, curiosity and data-science background on planning. To D2: my AI experience, as a speaker.",
+    "soft": "", "card": "", "next": "", "savedOn": "2026-11-08"}};
+  function load(){ try{ var v = localStorage.getItem(KEY); if(v) return JSON.parse(v); }catch(e){} return JSON.parse(JSON.stringify(SEED)); }
+  function save(o){ try{ localStorage.setItem(KEY, JSON.stringify(o)); return true; }catch(e){ return false; } }
+  var data = load(), listeners = [];
+  function snap(){ return {metadata:{fromCache:false}, docs:Object.keys(data).map(function(id){ return {id:id, data:function(){ return data[id]; }}; })}; }
+  function emit(){ listeners.forEach(function(f){ f(snap()); }); }
+  var db = {
+    collection: function(){ return { onSnapshot: function(next){ listeners.push(next); setTimeout(function(){ next(snap()); },0); return function(){}; } }; },
+    doc: function(path){ var id = path.split("/")[1]; return { set: function(body){ data[id] = body; if(!save(data)) return Promise.reject({code:"unavailable"}); emit(); return Promise.resolve(); } }; }
+  };
+  window.claude = { use: function(n){ return Promise.resolve(n==="db" ? db : (n==="user" ? {can:function(){ return Promise.resolve(true); }} : null)); } };
+})();
+</script>
+<script>
+(function(){
+  // ---------- the deck ----------
+  // mine:true = my own card (my field guide, my data). Otherwise course material, with source.
+  const SITS = [
+    ["all","Anything"],["ask","Before a big ask"],["room","Walking into a room"],["soft","I'm about to soften"],
+    ["pushback","Getting pushback"],["rising","Things are going well"],["stuck","Feeling stuck"],["people","Building my network"]
+  ];
+  const DECK = [
+    // Me
+    {d:"Me", mine:true, s:["ask","soft","stuck"], line:"I can be honest about what I want and clear about why it could work for both of us.", src:"My reminder", me:"Read this one out loud before the meeting."},
+    {d:"Me", mine:true, s:["soft","ask"], line:"I had the best seat, took $26M of $50M, and stopped.", src:"Triple Helix", me:"I told myself I was protecting the relationship. I may also have been avoiding the discomfort of asking for more."},
+    {d:"Me", mine:true, s:["soft","ask"], line:"I ask easily for my own growth. I soften when the ask costs someone I like.", src:"My pattern", me:"Notice which one this is. Then decide before I see their face."},
+    {d:"Me", mine:true, s:["stuck","ask"], line:"I said what I wanted, and they gave me the planning seat.", src:"November 2026", me:"Top-down and bottom-up, next to the P&L. Ambition said out loud is a trade, not a favor."},
+    {d:"Me", mine:true, s:["stuck","people"], line:"A cold email turned into a speaking invite.", src:"November 2026, D2 women in AI", me:"Being visible about what I know is ethos. My style avoids self-promotion; this is the stretch."},
+    {d:"Me", mine:true, s:["room","pushback"], line:"Exchange −1.05. Networks +1.00. Allocentrism +0.95.", src:"My Leverage Inventory", me:"I'm great at the give. The work is naming the get."},
+    // The ask
+    {d:"The ask", s:["ask","soft"], line:"He was a trader, willing to take others into his debt and settle up over time.", src:"LBJ, The Boss of the Little Congress (Caro)", me:"I don't have to collect every time. I do have to keep the ledger."},
+    {d:"The ask", s:["ask"], line:"Be valuable. Value is relative to your partners' alternatives.", src:"Coalitions, Rx #1", me:"Before I ask, know what I bring that nobody else at the table does."},
+    {d:"The ask", s:["ask","stuck"], line:"In order to be irreplaceable, one must always be different.", src:"Coco Chanel, Networks class", me:"Data scientist plus GTM plus strategy. That combination is the difference."},
+    {d:"The ask", s:["ask","people"], line:"Give to get: costly, unselfish, unexpected, hard to repay in kind.", src:"Reciprocity, Networks class", me:"Generosity that sticks isn't a quid pro quo. Shackleton's biscuit."},
+    {d:"The ask", s:["soft","pushback"], line:"Use the minimum coercion necessary. Think dial, not switch.", src:"French & Raven, Class 2", me:"Pushing isn't all or nothing. Set the dial before I walk in."},
+    // Before the room
+    {d:"Before the room", s:["room","ask"], line:"Have the meeting before the meeting.", src:"Coalitions, Rx #4", me:"Who must approve, who can block, who has to implement? Talk to each one first."},
+    {d:"Before the room", s:["room"], line:"Failures of implementation are almost invariably failures to build successful coalitions.", src:"Jeffrey Pfeffer", me:"If the plan stalls, the analysis probably isn't what's missing."},
+    {d:"Before the room", s:["room","pushback"], line:"Nothing in here is about not being good at your job. It's just that it's not sufficient.", src:"Massey on Dubinsky, Class 6", me:"Don't be Dubinsky. Don't walk in cold with a complete model."},
+    {d:"Before the room", s:["room","ask"], line:"Start with the one person who can actually say yes, then fan out.", src:"Sadik-Khan and Times Square, Class 1", me:"Sequence matters. Win the decision-maker, then bring everyone along."},
+    {d:"Before the room", s:["ask","stuck"], line:"Not \"is this the right solution\" but \"is it worth trying for six months?\"", src:"Sadik-Khan's pilot, Class 1", me:"Make the decision small enough to say yes to."},
+    // Making the case
+    {d:"Making the case", s:["room"], line:"Do unto them as they want to be done unto.", src:"Persuasion lecture", me:"Finance wants returns, sales wants quota, marketing wants pipeline. Same data, three stories."},
+    {d:"Making the case", s:["room"], line:"A person usually has two reasons for doing something: a good reason and the real reason.", src:"Persuasion lecture", me:"Give them the logos they need and the reason they actually want."},
+    {d:"Making the case", s:["room"], line:"Before you leave the house, look in the mirror and take one thing off.", src:"Coco Chanel, on the fundamental speaker error", me:"My instinct is one more slide. Cut it."},
+    {d:"Making the case", s:["room"], line:"Where's your diorama?", src:"Robert Moses's assistant", me:"Like the pipeline target: show how it lands on the people doing the work."},
+    {d:"Making the case", s:["room","pushback"], line:"Ethos pays off most when it comes with allocentrism.", src:"Leverage Inventory data, Class 5", me:"That's my combination. Credibility plus actually caring what they need."},
+    // Relationships
+    {d:"Relationships", s:["people","stuck"], line:"Invest more in relationships than is convenient.", src:"Networks class", me:"Tomorrow I'll be just as busy. That's why it takes a policy."},
+    {d:"Relationships", s:["people"], line:"It's better to sell when you don't need to sell.", src:"David Schuppan, Relationship First", me:"Reach out to the CRO contact before I need anything."},
+    {d:"Relationships", s:["people"], line:"Meeting someone isn't one step, it's three: prep, meet, follow up.", src:"A former student's final project", me:"Email new contacts the next day, like Roizen."},
+    {d:"Relationships", s:["people"], line:"Lean against homophily.", src:"Networks class", me:"Sit with sales and finance, not just data people. That's where the structural holes are."},
+    // Pushback
+    {d:"Pushback", s:["pushback"], line:"Defensiveness never serves you. Defending yourself is great.", src:"Massey, Class 6", me:"Buy time. Ask a question. Let my system calm down."},
+    {d:"Pushback", s:["pushback"], line:"Restate their view so well they wish they'd said it. Then agree, then credit them. Only then criticize.", src:"Rapoport's rules, Class 6", me:"Even one of the three steps changes the room."},
+    {d:"Pushback", s:["pushback","soft"], line:"Who are we to think we are above using the full range of the toolbox?", src:"Massey on Lincoln and Pope Francis", me:"Good causes still need a street fighter. Might, used for the company, not for me."},
+    // Rising
+    {d:"When I'm rising", s:["rising"], line:"Watch how funny your jokes get.", src:"A former WEMBA student, Status class", me:"When everyone laughs, check who's still telling me the truth."},
+    {d:"When I'm rising", s:["rising"], line:"They can't imagine they would fall from grace. And that guarantees some of them will.", src:"Roderick Kramer, The Harder They Fall", me:"Silence may mean accommodation, not agreement. Ask, \"What am I missing?\""},
+    {d:"When I'm rising", s:["rising"], line:"Treat everyone with dignity. You've already been tested this morning.", src:"Status class", me:"The barista, the analyst, the new hire. Every day is the test."},
+    {d:"When I'm rising", s:["rising","stuck"], line:"Remember your good luck.", src:"Status class", me:"The layoffs opened the seat. I was ready for it, and I was also lucky."},
+    {d:"When I'm rising", s:["rising","soft"], line:"It's easier to hold your principles 100% of the time than 98% of the time.", src:"Clayton Christensen", me:"I won't mislead people or manufacture urgency."},
+    // Keeping going
+    {d:"Keeping going", s:["stuck"], line:"Everything we talk about in this class is inconvenient. That's also its source of value.", src:"Massey, last day", me:"If it were easy, everyone would do it."},
+    {d:"Keeping going", s:["stuck"], line:"Many people with 20 years of experience have one year of experience repeated 20 times.", src:"Jeffrey Pfeffer", me:"The monthly journal is how I avoid that."},
+    {d:"Keeping going", s:["stuck","rising"], line:"You're not truly committed to a goal unless you're sacrificing lesser goals.", src:"On intentionality, Class 1", me:"What am I saying no to this month for the CRO path?"},
+    {d:"Keeping going", s:["stuck"], line:"Mastering others is strength. Mastering yourself is true power.", src:"Tao Te Ching, Massey's closing", me:"Get more done by being a better version of myself."},
+    {d:"Keeping going", s:["stuck","soft"], line:"Good and bad things happen to both good and bad people. Hard work often pays off.", src:"Just World vs. Rough World, Class 2", me:"Peaches and plums don't get a path beaten to them. I have to talk."}
+  ];
+
+  const $ = id => document.getElementById(id);
+
+  // ---------- tabs ----------
+  const VIEWS = ["draw","all","journal"];
+  function show(v){
+    if(!VIEWS.includes(v)) v = "draw";
+    VIEWS.forEach(n => { $("view-"+n).hidden = n!==v; $("tab-"+n).setAttribute("aria-selected", String(n===v)); });
+    const want = v==="draw" ? "" : "#"+v;
+    if(location.hash!==want) history.replaceState(null,"", want || location.pathname+location.search);
+  }
+  document.querySelectorAll("nav.tabs button").forEach(b => b.addEventListener("click", () => show(b.dataset.view)));
+  window.addEventListener("hashchange", () => show(location.hash.slice(1)));
+  show(location.hash.slice(1));
+
+  // ---------- draw ----------
+  let sit = "all", order = [], pos = 0;
+  function esc(s){ return String(s??"").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+  function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+  function build(){
+    const pool = DECK.map((c,i)=>i).filter(i => sit==="all" || DECK[i].s.includes(sit));
+    const mine = pool.filter(i => DECK[i].mine), rest = shuffle(pool.filter(i => !DECK[i].mine));
+    // lead with one of my own cards, then the course
+    order = mine.length ? [shuffle(mine.slice())[0], ...shuffle(rest.concat(mine.slice(1)))] : rest;
+    order = [...new Set(order)];
+    pos = 0; render();
+  }
+  function render(){
+    const c = DECK[order[pos]]; const el = $("card");
+    el.classList.remove("flip"); void el.offsetWidth; el.classList.add("flip");
+    el.innerHTML = `<div class="deck">${esc(c.d)}${c.mine?" · mine":""}</div>
+      <span class="pos">${pos+1} / ${order.length}</span>
+      <p class="line">${esc(c.line)}</p>
+      <p class="src">${esc(c.src)}</p>
+      <p class="forme"><b>For me</b>${esc(c.me)}</p>`;
+    $("prev").disabled = pos===0;
+    $("count").textContent = sit==="all" ? "" : `${order.length} cards for this`;
+  }
+  $("chips").innerHTML = SITS.map(([k,l]) => `<button class="chip" type="button" data-sit="${k}" aria-pressed="${k==="all"}">${l}</button>`).join("");
+  $("chips").querySelectorAll(".chip").forEach(b => b.addEventListener("click", () => {
+    sit = b.dataset.sit; $("chips").querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", String(x===b))); build();
+  }));
+  $("next").addEventListener("click", () => { pos = (pos+1) % order.length; if(pos===0) build(); else render(); });
+  $("prev").addEventListener("click", () => { if(pos>0){ pos--; render(); } });
+  document.addEventListener("keydown", e => {
+    if($("view-draw").hidden || /INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
+    if(e.key==="ArrowRight") $("next").click(); if(e.key==="ArrowLeft") $("prev").click();
+  });
+  build();
+
+  // ---------- all cards ----------
+  const groups = [...new Set(DECK.map(c => c.d))];
+  $("all").innerHTML = groups.map(g => `<div class="stack-s"><h3 class="deckhead">${esc(g)}</h3>${DECK.filter(c => c.d===g).map(c =>
+    `<div class="panel mini ${c.mine?"mine":""}"><span class="bar" aria-hidden="true"></span><div class="stack-s"><p class="q">${esc(c.line)}</p><p class="small muted">${esc(c.src)}</p><p class="small"><strong>For me:</strong> ${esc(c.me)}</p></div></div>`).join("")}</div>`).join("");
+
+  // ---------- journal ----------
+  const pad = n => String(n).padStart(2,"0");
+  const now = new Date();
+  const monthId = now.getFullYear()+"-"+pad(now.getMonth()+1);
+  const monthName = id => { const [y,m] = id.split("-").map(Number); return new Date(y,m-1,1).toLocaleDateString(undefined,{month:"long",year:"numeric"}); };
+  $("jtitle").textContent = monthName(monthId);
+  $("cal").href = "https://calendar.google.com/calendar/render?action=TEMPLATE"
+    + "&text=" + encodeURIComponent("Monthly page: My Pathway to CRO (20 min)")
+    + "&details=" + encodeURIComponent("Open My Pathway to CRO > Monthly journal. My win, the ask and what I offered, where I softened, next month's ask.")
+    + "&dates=20261206T190000/20261206T192000&ctz=America/New_York"
+    + "&recur=" + encodeURIComponent("RRULE:FREQ=MONTHLY;BYDAY=1SU;COUNT=12");
+
+  const F = ["win","ask","offer","soft","card","next"];
+  const state = {entries:[], db:null, canWrite:true, touched:false};
+  F.forEach(k => $("j-"+k).addEventListener("input", () => { state.touched = true; }));
+
+  function fillForm(){
+    if(state.touched) return;
+    const cur = state.entries.find(e => e.id===monthId);
+    F.forEach(k => { $("j-"+k).value = cur ? (cur[k]||"") : ""; });
+    $("jstate").textContent = cur ? "Saved" : "Not written yet";
+    $("jstate").className = cur ? "pill" : "pill idle";
+  }
+  function renderPast(){
+    const past = state.entries.filter(e => e.id!==monthId).sort((a,b) => b.id.localeCompare(a.id));
+    $("past").innerHTML = past.length ? `<div class="eyebrow">Earlier months</div>` + past.map(e => `
+      <article class="panel stack-s"><h3>${monthName(e.id)}</h3>
+      ${e.win?`<div class="win"><span class="eyebrow">Win</span><p class="small" style="white-space:pre-line">${esc(e.win)}</p></div>`:""}
+      ${(e.ask||e.offer)?`<div class="trade"><div class="tag-get"><div class="eyebrow get">Asked for</div><p class="small">${esc(e.ask)}</p></div><div class="tag-give"><div class="eyebrow give">Offered</div><p class="small">${esc(e.offer)}</p></div></div>`:""}
+      ${e.soft?`<p class="small"><strong>Where I softened:</strong> ${esc(e.soft)}</p>`:""}
+      ${e.card?`<p class="small"><strong>Card I needed:</strong> ${esc(e.card)}</p>`:""}
+      ${e.next?`<p class="small muted">Next: ${esc(e.next)}</p>`:""}</article>`).join("") : "";
+  }
+  function applyRO(){
+    $("ro").hidden = state.canWrite;
+    F.forEach(k => { $("j-"+k).disabled = !state.canWrite; }); $("j-save").disabled = !state.canWrite;
+  }
+  function setStatus(msg, err){ $("j-status").textContent = msg; $("j-status").classList.toggle("err", !!err); }
+
+  $("jform").addEventListener("submit", async e => {
+    e.preventDefault();
+    if(!state.db){ setStatus("Saving isn't available in this view.", true); return; }
+    const body = {}; F.forEach(k => { body[k] = $("j-"+k).value.trim(); });
+    if(!body.win && !body.ask){ setStatus("Write a win or an ask first.", true); return; }
+    body.savedOn = new Date().toISOString().slice(0,10);
+    $("j-save").disabled = true; setStatus("Saving…");
+    try{ await state.db.doc("journal/"+monthId).set(body); state.touched = false; setStatus("Saved. See you next month."); }
+    catch(err){ setStatus(err && err.code==="invalid_argument" ? "This view can't save entries." : "Couldn't save. Check your connection and try again.", true); }
+    finally{ $("j-save").disabled = !state.canWrite; }
+  });
+
+  (async function connect(){
+    if(!window.claude || !window.claude.use){ $("sync").textContent = "The journal saves on the published page."; state.canWrite=false; applyRO(); return; }
+    const timer = setTimeout(() => { $("sync").textContent = "Saved entries can't be reached yet."; }, 10000);
+    const user = await window.claude.use("user").catch(() => null);
+    const db = await window.claude.use("db").catch(() => null);
+    if(!db){ clearTimeout(timer); $("sync").textContent = "Sign in to see the journal."; state.canWrite=false; applyRO(); return; }
+    state.db = db;
+    if(user){ try{ if(await user.can("data.write")===false) state.canWrite=false; }catch(_){} }
+    applyRO();
+    db.collection("journal").onSnapshot(s => {
+      state.entries = s.docs.map(d => Object.assign({id:d.id}, d.data()));
+      if(!s.metadata.fromCache){ clearTimeout(timer); $("sync").textContent = ""; }
+      fillForm(); renderPast();
+    }, () => { clearTimeout(timer); $("sync").textContent = "The journal isn't available right now."; $("sync").classList.add("err"); });
+  })();
+})();
+</script>
+
+</body>
+</html>
